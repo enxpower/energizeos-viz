@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EnergizeOS™ Real‑time Strategy Visualization</title>
+  <!-- ECharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <style>
+    :root{
+      --bg:#0f1115; --panel:#151922; --ink:#e6e8ee; --muted:#aab1c6; --accent:#6ea0ff; --ok:#2ecc71; --warn:#f1c40f; --bad:#e74c3c;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
+    header{padding:14px 20px;border-bottom:1px solid #1f2430;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    header h1{font-size:18px;margin:0;letter-spacing:.3px}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab{padding:8px 12px;border:1px solid #273044;border-radius:999px;cursor:pointer;color:var(--muted)}
+    .tab.active{background:#1a2130;color:var(--ink);border-color:#2d3952}
+    .wrap{display:grid;grid-template-columns: 420px 1fr; gap:14px; padding:14px}
+    .panel{background:var(--panel);border:1px solid #232a3a;border-radius:16px;overflow:hidden}
+    .panel h2{margin:0;padding:12px 14px;border-bottom:1px solid #232a3a;font-size:15px}
+    .panel .body{padding:12px}
+    textarea{width:100%;min-height:260px;background:#0f1320;color:#dfe6ff;border:1px solid #273044;border-radius:12px;padding:10px;font-family:ui-monospace,Menlo,Consolas,monospace}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    button{background:#22324a;border:1px solid #2b3b58;color:#c9d3ea;padding:9px 12px;border-radius:12px;cursor:pointer;transition:all .15s ease}
+    button:hover{transform:translateY(-1px)}
+    button.active{background:#3a7bff !important;color:#fff;border-color:#3a7bff;box-shadow:0 0 8px rgba(58,123,255,.5)}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .hint{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}
+    #chart{height:560px}
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+    .kv div{background:#101520;border:1px solid #1e2533;padding:8px;border-radius:10px;color:#c7cde2}
+    .tag{display:inline-block;padding:2px 8px;border-radius:12px;border:1px solid #2c3a57;color:#a9b6d6;margin-left:6px;font-size:12px}
+    .ok{color:#11cf7b}
+    .bad{color:#ff6b6b}
+    .note{font-size:12px;color:#9aa9c8}
+    footer{padding:8px 14px;color:#8091b5;border-top:1px solid #1f2430}
+    @media (max-width: 1200px){ .wrap{grid-template-columns:1fr} #chart{height:420px}}
+    /* Lang switch */
+    .lang{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .lang select{background:#101628;border:1px solid #26334d;color:#cfe0ff;padding:6px 10px;border-radius:10px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">EnergizeOS™ Real‑time Strategy Visualization</h1>
+    <div class="tabs" id="tabs"></div>
+    <div class="lang">
+      <label for="langSel" id="langLabel">Language</label>
+      <select id="langSel">
+        <option value="en" selected>English</option>
+        <option value="zh">中文</option>
+      </select>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="panel">
+      <h2 id="formTitle">—</h2>
+      <div class="body">
+        <textarea id="jsonInput" spellcheck="false"></textarea>
+        <div class="controls">
+          <button id="btnRender">Render</button>
+          <button class="secondary" id="btnSample">Load Sample</button>
+          <button class="secondary" id="btnStream">Simulate Live</button>
+          <button class="secondary" id="btnStop">Stop</button>
+        </div>
+        <div class="hint" id="schemaHint"></div>
+        <div class="kv" id="quickStats"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2 id="chartTitle">—</h2>
+      <div id="chart"></div>
+      <footer id="foot">Dual‑axis/thresholds/lock conditions are built‑in and switch per strategy.</footer>
+    </div>
+  </div>
+
+<script>
+// ---------- i18n
+let currentLang = 'en';
+const I18N = {
+  appTitle: {en:'EnergizeOS™ Real‑time Strategy Visualization', zh:'EnergizeOS™ 实时策略可视化'},
+  language: {en:'Language', zh:'语言'},
+  dataInput: {en:'Data Input (JSON)', zh:'数据输入 (JSON)'},
+  render: {en:'Render', zh:'渲染图表'},
+  sample: {en:'Load Sample', zh:'加载示例数据'},
+  simulate: {en:'Simulate Live', zh:'模拟实时滚动'},
+  stop: {en:'Stop', zh:'停止'},
+  schema: {en:'Schema', zh:'数据结构示例'},
+  foot: {en:'Dual‑axis/thresholds/lock conditions are built‑in and switch per strategy.', zh:'双轴/阈值/互锁状态等已内置，按策略自动切换。'}
+};
+function t(key){ return I18N[key]?.[currentLang] || key; }
+
+// ---------- Strategies (multilingual names/titles)
+const STRATEGIES = [
+  { id:'tou', name:{en:'TOU Optimization', zh:'TOU 电价优化'}, title:{en:'TOU: Price × BESS Power × SOC (Dual‑axis)', zh:'TOU：电价×储能功率×SOC（双轴）'},
+    schema:`{
+  "time": ["2025-08-11T00:00", ...],
+  "price": [0.08, ...],          // $/kWh (right axis)
+  "bessPower": [-500, ...],      // kW, negative=charge, positive=discharge (left axis)
+  "soc": [55, ...],              // %
+  "periods": [{"start":"06:00","end":"10:00","tag":"peak"}, ...]
+}`,
+    sample: genSampleTOU()
+  },
+  { id:'dcm', name:{en:'DCM – Demand Charge Management', zh:'DCM 需量控制'}, title:{en:'DCM: Forecast × Actual × Threshold × SOC', zh:'DCM：预测×实际×阈值×SOC'},
+    schema:`{
+  "time": ["2025-08-11T10:00", ...],
+  "loadPred": [3200, ...],       // kW forecast
+  "loadActual": [2700, ...],     // kW actual (after shaving)
+  "threshold": 3000,             // kW
+  "soc": [68, ...]
+}`,
+    sample: genSampleDCM()
+  },
+  { id:'gtis', name:{en:'Grid‑Tie / Island Transition', zh:'并/离网切换'}, title:{en:'Grid‑Tie/Island: State + Criteria (C1–C7)', zh:'Grid‑Tie/Island：状态+判据（C1–C7）'},
+    schema:`{
+  "gridState": "grid-tied | islanded",
+  "criteria": {"C1": true, "C2": true, "C3": true, "C4": false, "C5": true, "C6": true, "C7": true},
+  "events": [{"t":"2025-08-11T12:01","type":"grid_fault"},{"t":"2025-08-11T12:02","type":"trip"},{"t":"2025-08-11T12:05","type":"resync"}],
+  "syncPhase": 3.5,              // ° phase diff
+  "metrics": {"voltage": 480, "freq": 60.02}
+}`,
+    sample: genSampleGTIS()
+  },
+  { id:'dg', name:{en:'Diesel Generator Coordination', zh:'柴油机协调'}, title:{en:'DG Coordination: Load × DG × BESS × Thresholds', zh:'DG：负载×DG×BESS×阈值'},
+    schema:`{
+  "time": ["2025-08-11T00:00", ...],
+  "load": [2200, ...],           // kW total load
+  "dg": [1600, ...],             // kW DG output
+  "bess": [600, ...],            // kW BESS output (negative=charge)
+  "lowThresh": 800,              // kW DG stop threshold
+  "highThresh": 1800             // kW DG start threshold
+}`,
+    sample: genSampleDG()
+  },
+  { id:'ai', name:{en:'AI Forecast & Optimization', zh:'AI 预测优化'}, title:{en:'AI Forecast: History × Forecast × Actual × Deviation', zh:'AI：历史×预测×实际×偏差'},
+    schema:`{
+  "time": ["2025-08-11T00:00", ...],
+  "history": [..],               // kW history
+  "forecast": [..],              // kW forecast
+  "actual": [..]                 // kW actual
+}`,
+    sample: genSampleAI()
+  },
+  { id:'pv', name:{en:'PV Self‑Consumption', zh:'PV 最大自用'}, title:{en:'PV Self‑Use: PV × Load × BESS × PCC Power', zh:'PV自用：PV×负载×BESS×并网功率'},
+    schema:`{
+  "time": [..],
+  "pv": [..],                    // kW PV
+  "load": [..],                  // kW load
+  "bess": [..],                  // kW BESS (negative=charge)
+  "grid": [..]                   // kW PCC (≈0)
+}`,
+    sample: genSamplePV()
+  },
+  { id:'zx', name:{en:'Zero‑Export Control', zh:'零逆流控制'}, title:{en:'Zero Export: PCC Power around 0', zh:'零逆流：并网功率围绕 0'},
+    schema:`{
+  "time": [..],
+  "gridPower": [..],             // kW PCC power (should ≤0)
+  "pcsCmd": [..]                 // kW PCS command
+}`,
+    sample: genSampleZX()
+  },
+];
+
+// ---------- UI refs
+const tabsEl = document.getElementById('tabs');
+const inputEl = document.getElementById('jsonInput');
+const hintEl = document.getElementById('schemaHint');
+const formTitleEl = document.getElementById('formTitle');
+const chartTitleEl = document.getElementById('chartTitle');
+const quickStatsEl = document.getElementById('quickStats');
+const titleEl = document.getElementById('title');
+const footEl = document.getElementById('foot');
+const langSel = document.getElementById('langSel');
+const langLabel = document.getElementById('langLabel');
+const chart = echarts.init(document.getElementById('chart'));
+let current = STRATEGIES[0];
+let timer = null;
+
+// ---------- Language switch
+langSel.onchange = ()=>{ setLang(langSel.value); };
+function setLang(lang='en'){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  titleEl.textContent = t('appTitle');
+  langLabel.textContent = t('language');
+  document.getElementById('btnRender').textContent = t('render');
+  document.getElementById('btnSample').textContent = t('sample');
+  document.getElementById('btnStream').textContent = t('simulate');
+  document.getElementById('btnStop').textContent = t('stop');
+  footEl.textContent = t('foot');
+  // 重新绘制 tabs 标题/面板标题
+  refreshTabs();
+  setTab(current.id);
+}
+
+// ---------- Tabs
+function refreshTabs(){
+  tabsEl.innerHTML = '';
+  STRATEGIES.forEach(s=>{
+    const b = document.createElement('div');
+    b.className = 'tab';
+    b.dataset.id = s.id;
+    b.textContent = s.name[currentLang] || s.name.en;
+    b.onclick = ()=> setTab(s.id);
+    tabsEl.appendChild(b);
+  });
+}
+
+function setTab(id){
+  current = STRATEGIES.find(s=>s.id===id) || STRATEGIES[0];
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const tab = document.querySelector(`.tab[data-id="${current.id}"]`);
+  if(tab) tab.classList.add('active');
+  formTitleEl.textContent = `${(current.name[currentLang]||current.name.en)} · ${t('dataInput')}`;
+  chartTitleEl.textContent = current.title[currentLang] || current.title.en;
+  hintEl.innerHTML = `<div>${t('schema')}:</div><pre style="white-space:pre-wrap">${escapeHtml(current.schema)}</pre>`;
+  inputEl.value = JSON.stringify(current.sample, null, 2);
+  quickStatsEl.innerHTML = '';
+  render();
+}
+
+// ---------- Buttons with active feedback
+const btnRender = document.getElementById('btnRender');
+const btnSample = document.getElementById('btnSample');
+const btnStream = document.getElementById('btnStream');
+const btnStop = document.getElementById('btnStop');
+
+function markActive(target){
+  document.querySelectorAll('.controls button').forEach(b=>b.classList.remove('active'));
+  if(target) target.classList.add('active');
+}
+
+btnRender.onclick = (e)=>{ markActive(e.target); render(); };
+btnSample.onclick = (e)=>{ markActive(e.target); inputEl.value = JSON.stringify(current.sample, null, 2); render(); };
+btnStream.onclick = (e)=>{
+  if(timer) return; markActive(e.target); btnStop.disabled=false;
+  timer = setInterval(()=>{
+    try{ const data = JSON.parse(inputEl.value); streamAppend(data); inputEl.value = JSON.stringify(data, null, 2); render(); }catch(err){ console.warn(err); }
+  }, 1500);
+};
+btnStop.onclick = (e)=>{ markActive(e.target); clearInterval(timer); timer=null; };
+
+// ---------- Render switch
+function render(){
+  let data; try{ data = JSON.parse(inputEl.value); }catch(e){ return alert('JSON parse failed. 请检查 JSON 格式'); }
+  switch(current.id){
+    case 'tou': return renderTOU(data);
+    case 'dcm': return renderDCM(data);
+    case 'gtis': return renderGTIS(data);
+    case 'dg': return renderDG(data);
+    case 'ai': return renderAI(data);
+    case 'pv': return renderPV(data);
+    case 'zx': return renderZX(data);
+  }
+}
+
+// ---------- Strategy renderers (same logic as before)
+function renderTOU(d){
+  const opt = baseOption(d.time);
+  opt.grid.right = 60;
+  opt.yAxis = [
+    { type:'value', name:'kW', position:'left' },
+    { type:'value', name:'$/kWh', position:'right' }
+  ];
+  opt.series = [
+    { type:'bar', name:'BESS Power', yAxisIndex:0, data:d.bessPower, large:true, itemStyle:{opacity:0.75} },
+    { type:'line', name:'SOC %', yAxisIndex:0, data:d.soc, smooth:true, lineStyle:{width:1, type:'dashed'} },
+    { type:'line', name:'Price', yAxisIndex:1, data:d.price, smooth:true }
+  ];
+  if(Array.isArray(d.periods)){
+    opt.graphic = d.periods.map(p=>({
+      type:'rect',z:-10,shape:{xAxis:p.start,y:0,xAxis2:p.end,height:'100%'},
+      style:{fill: p.tag==='peak'? 'rgba(231,76,60,0.08)' : 'rgba(46,204,113,0.08)'}
+    }));
+  }
+  chart.setOption(opt,true);
+  stats({ 'Price (now)': last(d.price), 'BESS Power (now)': `${last(d.bessPower)} kW`, 'SOC (now)': `${last(d.soc)} %` });
+}
+
+function renderDCM(d){
+  const opt = baseOption(d.time);
+  opt.yAxis = { type:'value', name:'kW' };
+  opt.series = [
+    { type:'line', name:'Load Forecast', data:d.loadPred, smooth:true, lineStyle:{width:2} },
+    { type:'line', name:'Actual (Shaved)', data:d.loadActual, smooth:true },
+    { type:'line', name:'Threshold', data:Array(d.time.length).fill(d.threshold), lineStyle:{type:'dashed'} }
+  ];
+  chart.setOption(opt,true);
+  const over = Math.max(0, Math.max(...d.loadPred) - d.threshold);
+  stats({ Threshold:`${d.threshold} kW`, PeakForecast:`${Math.max(...d.loadPred)} kW`, PeakAfter:`${Math.max(...d.loadActual)} kW`, OverPotential: over>0? `${over} kW`:'None' });
+}
+
+function renderGTIS(d){
+  const times = (d.events||[]).map(e=>e.t);
+  const opt = {
+    backgroundColor:'transparent',
+    tooltip:{},
+    grid:[{left:60,right:40,top:40,height:260},{left:60,right:40,top:330,height:120}],
+    xAxis:[{type:'category', data:times, boundaryGap:false},{type:'category', data:['C1','C2','C3','C4','C5','C6','C7']}],
+    yAxis:[{type:'value', name:'Event #'}, {type:'value', show:false,min:0,max:1}],
+    series:[
+      {type:'line', xAxisIndex:0, yAxisIndex:0, name:'Events', data: (d.events||[]).map((e,i)=> i+1), smooth:true},
+      {type:'bar', xAxisIndex:1, yAxisIndex:1, name:'Criteria', data: ['C1','C2','C3','C4','C5','C6','C7'].map(k=> d.criteria?.[k]?1:0),
+        itemStyle:{ color:(p)=> ['C1','C2','C3','C4','C5','C6','C7'][p.dataIndex]==='C4' && !d.criteria?.C4 ? '#e74c3c':'#2ecc71'} }
+    ]
+  };
+  chart.setOption(opt,true);
+  stats({ Mode: d.gridState==='islanded'?'Islanded':'Grid‑tied', 'Phase Δ':`${d.syncPhase}°`, Voltage:`${d.metrics?.voltage||'-'} V`, Frequency:`${d.metrics?.freq||'-'} Hz` });
+}
+
+function renderDG(d){
+  const opt = baseOption(d.time);
+  opt.yAxis = { type:'value', name:'kW' };
+  opt.series = [
+    { type:'line', name:'Load', data:d.load, smooth:true },
+    { type:'line', name:'DG', data:d.dg, smooth:true },
+    { type:'line', name:'BESS', data:d.bess, smooth:true },
+    { type:'line', name:'Low Thresh', data:Array(d.time.length).fill(d.lowThresh), lineStyle:{type:'dashed'} },
+    { type:'line', name:'High Thresh', data:Array(d.time.length).fill(d.highThresh), lineStyle:{type:'dashed'} }
+  ];
+  chart.setOption(opt,true);
+  stats({ Low:`${d.lowThresh} kW`, High:`${d.highThresh} kW`, 'DG (now)':`${last(d.dg)} kW`, 'BESS (now)':`${last(d.bess)} kW` });
+}
+
+function renderAI(d){
+  const opt = baseOption(d.time);
+  opt.yAxis = { type:'value', name:'kW' };
+  opt.series = [
+    { type:'line', name:'History', data:d.history, smooth:true, lineStyle:{type:'dotted'} },
+    { type:'line', name:'Forecast', data:d.forecast, smooth:true },
+    { type:'line', name:'Actual', data:d.actual, smooth:true }
+  ];
+  chart.setOption(opt,true);
+  const dev = Math.abs(last(d.actual) - last(d.forecast));
+  stats({ Deviation:`${dev.toFixed(1)} kW`, Note: dev>100? 'Model update suggested':'OK' });
+}
+
+function renderPV(d){
+  const opt = baseOption(d.time);
+  opt.yAxis = { type:'value', name:'kW' };
+  opt.series = [
+    { type:'line', name:'PV', data:d.pv, smooth:true },
+    { type:'line', name:'Load', data:d.load, smooth:true },
+    { type:'bar', name:'BESS', data:d.bess, stack:'e', itemStyle:{opacity:.8} },
+    { type:'line', name:'PCC', data:d.grid, smooth:true, lineStyle:{type:'dashed'} }
+  ];
+  chart.setOption(opt,true);
+  stats({ 'Self‑use Est.': `${selfUseRate(d).toFixed(1)}%`, PCC:`${last(d.grid)} kW` });
+}
+
+function renderZX(d){
+  const opt = baseOption(d.time);
+  opt.yAxis = { type:'value', name:'kW', min: (Math.min(...d.gridPower)-50), max:(Math.max(...d.gridPower)+50) };
+  opt.series = [
+    { type:'line', name:'PCC Power', data:d.gridPower, smooth:true },
+    { type:'line', name:'PCS Cmd', data:d.pcsCmd, smooth:true, lineStyle:{type:'dashed'} },
+    { type:'line', name:'Zero', data:Array(d.time.length).fill(0), lineStyle:{type:'dotted'} }
+  ];
+  chart.setOption(opt,true);
+  stats({ PCC:`${last(d.gridPower)} kW`, Export: last(d.gridPower)>0? 'YES':'NO' });
+}
+
+// ---------- Base helpers
+function baseOption(time){
+  return {
+    backgroundColor:'transparent',
+    tooltip:{trigger:'axis'},
+    legend:{top:8,textStyle:{color:'#cbd5e1'}},
+    grid:{left:60,right:40,top:40,bottom:40},
+    xAxis:{ type:'category', data:time, boundaryGap:false, axisLabel:{color:'#9fb0d0'} },
+    yAxis:{ type:'value', axisLabel:{color:'#9fb0d0'} }
+  };
+}
+function stats(obj){ quickStatsEl.innerHTML = Object.entries(obj).map(([k,v])=>`<div><div class="note">${k}</div><div>${v}</div></div>`).join(''); }
+function last(arr){ return Array.isArray(arr)&&arr.length? arr[arr.length-1]: undefined; }
+function escapeHtml(s){ return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function streamAppend(d){
+  function append1(series, step=1){ if(!Array.isArray(series) || !series.length) return; const lastv = series[series.length-1]; series.push( (typeof lastv==='number'? lastv:0) + (Math.random()*2-1)*step ); if(series.length>180) series.shift(); }
+  if(Array.isArray(d.time)){
+    const next = new Date(d.time[d.time.length-1] || Date.now());
+    next.setMinutes(next.getMinutes()+5);
+    d.time.push(next.toISOString().slice(0,16));
+    if(d.time.length>180) d.time.shift();
+  }
+  ['price','bessPower','soc','loadPred','loadActual','pv','load','bess','grid','gridPower','pcsCmd','dg','history','forecast','actual'].forEach(k=> append1(d[k], 10));
+}
+function selfUseRate(d){
+  const n = Math.min(d.pv?.length||0, d.load?.length||0);
+  if(n===0) return 0; let selfUse=0, pvSum=0, dt=1;
+  for(let i=0;i<n;i++){ const pv = Math.max(0, d.pv[i]||0); const load = Math.max(0, d.load[i]||0); const bess = d.bess? d.bess[i]||0 : 0; const charge = Math.max(0, -bess); pvSum += pv*dt; selfUse += Math.min(pv, load + charge)*dt; }
+  return pvSum? (selfUse/pvSum*100):0;
+}
+
+// ---------- Sample data generators
+function timeRange(n=144, start=new Date('2025-08-11T00:00:00Z')){ const arr=[]; const t=new Date(start); for(let i=0;i<n;i++){ arr.push(new Date(t).toISOString().slice(0,16)); t.setMinutes(t.getMinutes()+10); } return arr; }
+function genSampleTOU(){ const t = timeRange(); const price = t.map((_,i)=> (i%144<36?0.08: i%144<96?0.12: 0.25)); const bessPower = t.map((_,i)=> (price[i]<0.1? -400: price[i]>0.2? 500: 50*Math.sin(i/6)) ); let soc=50; const socArr=t.map((_,i)=>{ soc += bessPower[i]<0? 0.3: -0.35; return Math.max(10, Math.min(95, +soc.toFixed(1))); }); return { time:t, price, bessPower, soc:socArr, periods:[{start:'06:00',end:'10:00',tag:'peak'},{start:'21:00',end:'23:59',tag:'peak'},{start:'00:00',end:'05:00',tag:'valley'}] }; }
+function genSampleDCM(){ const t = timeRange(); const loadPred = t.map((_,i)=> 2500 + 600*Math.max(0, Math.sin((i-20)/10)) + 200*Math.random()); const threshold = 3000; const loadActual = loadPred.map(v=> v>threshold? threshold - 80*Math.random(): v - 30*Math.random()); const soc = t.map((_,i)=> 70 - 0.05*i + 3*Math.sin(i/20)); return { time:t, loadPred, loadActual, threshold, soc }; }
+function genSampleGTIS(){ return { gridState: 'grid-tied', criteria: {C1:true,C2:true,C3:true,C4:false,C5:true,C6:true,C7:true}, events:[{t:'2025-08-11T12:01',type:'grid_ok'},{t:'2025-08-11T14:22',type:'grid_fault'},{t:'2025-08-11T14:23',type:'trip'},{t:'2025-08-11T14:30',type:'resync'}], syncPhase: 3.2, metrics: {voltage:480, freq:60.02} }; }
+function genSampleDG(){ const t = timeRange(); const load = t.map((_,i)=> 1500 + 600*Math.sin(i/12) + 200*Math.random()); const highThresh = 1800, lowThresh = 800; const dg = t.map((_,i)=> Math.min(highThresh+200, Math.max(lowThresh, 1200 + 200*Math.sin(i/18)))); const bess = load.map((L,i)=> L - dg[i]); return { time:t, load, dg, bess, lowThresh, highThresh }; }
+function genSampleAI(){ const t=timeRange(); const history=t.map((_,i)=> 1200 + 300*Math.sin((i-60)/10)); const forecast=t.map((_,i)=> 1300 + 250*Math.sin((i-40)/12)); const actual=forecast.map((v,i)=> v + 60*Math.sin(i/7) + 50*(Math.random()-0.5)); return { time:t, history, forecast, actual }; }
+function genSamplePV(){ const t=timeRange(); const pv=t.map((_,i)=> { const h=(i%144)/6; const g=Math.max(0, Math.sin((h-6)/5)); return 1500*g + 100*Math.random(); }); const load=t.map((_,i)=> 1200 + 400*Math.sin(i/15) + 100*Math.random()); const bess=t.map((_,i)=> pv[i]>load[i]? -(pv[i]-load[i]): (load[i]-pv[i])*0.6 ); const grid = t.map((_,i)=> load[i] + (bess[i]>0? 0: 0) - pv[i]); return { time:t, pv, load, bess, grid }; }
+function genSampleZX(){ const t=timeRange(); const gridPower=t.map((_,i)=> (Math.sin(i/7)*30) + (Math.random()*10-5)); const pcsCmd=t.map((_,i)=> -gridPower[i]*1.2 + (Math.random()*4-2)); return { time:t, gridPower, pcsCmd }; }
+
+// Init
+refreshTabs();
+setLang('en');
+setTab('tou');
+</script>
+</body>
+</html>
