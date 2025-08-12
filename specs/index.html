@@ -4,21 +4,15 @@
   <meta charset="utf-8" />
   <title>EnergizeOS™ – Specs & Strategy Theory</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="EnergizeOS™ core capabilities, strategy modules, control IO, sensing, remote UI & access, integrations, deployment & safety. Bilingual (EN/中文)." />
-  <meta property="og:title" content="EnergizeOS™ – Specs & Strategy Theory" />
-  <meta property="og:description" content="Core capabilities & strategy theory for TOU, DCM, GT/Island, DG, AI forecast, PV self-use, Zero Export." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://viz.energizeos.com/specs/" />
   <style>
-    :root{ --bg:#0f1115; --panel:#151922; --ink:#e6e8ee; --muted:#aab1c6; --accent:#6ea0ff; --line:#232a3a; --chip:#1a2130; }
+    :root{ --bg:#0f1115; --panel:#151922; --ink:#e6e8ee; --muted:#aab1c6; --line:#232a3a; --chip:#1a2130; }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
     a{color:#9fc0ff;text-decoration:none} a:hover{text-decoration:underline}
     header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
-    header .brand{font-weight:600}
+    .brand{font-weight:600}
     .nav{margin-left:auto;display:flex;gap:12px;align-items:center}
     .btn{background:#22324a;border:1px solid #2b3b58;color:#cfe0ff;padding:8px 12px;border-radius:10px}
-    .btn:focus{outline:2px solid #3a7bff}
     .lang{display:flex;gap:8px;align-items:center}
     .lang select{background:#101628;border:1px solid #26334d;color:#cfe0ff;padding:6px 10px;border-radius:10px}
     main{max-width:1100px;margin:20px auto;padding:0 16px;display:grid;grid-template-columns: 260px 1fr;gap:16px}
@@ -33,21 +27,21 @@
     ul{margin:8px 0 12px 18px;color:#d4dcf5}
     .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
     .chip{background:var(--chip);border:1px solid #2d3952;color:#c7d4f1;padding:4px 8px;border-radius:999px;font-size:12px}
-    footer{max-width:1100px;margin:20px auto;padding:12px 16px;color:#93a6cc;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap}
-    .muted{color:#aab1c6}
-    .k{color:#9fb0d0;font-size:13px}
-    .hero{background:linear-gradient(180deg, rgba(110,160,255,.10), transparent);padding:16px;border-bottom:1px solid var(--line)}
-    @media (max-width: 980px){ main{grid-template-columns:1fr} .side{position:static} }
+    /* 统一页脚样式（与主站一致） */
+    .sitefoot{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:16px 20px;border-top:1px solid var(--line);color:#b8c1d9;font-size:14px;flex-wrap:wrap}
+    .icons a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid #2b3b58;border-radius:10px;color:#c9d3ea}
+    .icons a:hover{background:#1a2130}
+    .icons svg{width:18px;height:18px;fill:currentColor}
   </style>
 </head>
 <body>
   <header>
     <div class="brand">EnergizeOS™</div>
-    <div class="muted" id="subtitle" data-i18n="subtitle">Specs & Strategy Theory</div>
+    <div id="subtitle" style="color:#aab1c6" data-i18n="subtitle">Specs & Strategy Theory</div>
     <div class="nav">
       <a class="btn" href="/" data-i18n="backViz">← Back to Visualization</a>
       <div class="lang">
-        <label for="langSel" class="k" data-i18n="language">Language</label>
+        <label for="langSel" style="color:#9fb0d0" data-i18n="language">Language</label>
         <select id="langSel">
           <option value="en" selected>English</option>
           <option value="zh">中文</option>
@@ -57,25 +51,17 @@
   </header>
 
   <main>
+    <!-- 目录只保留两大块 -->
     <nav class="side">
       <h3 data-i18n="toc">On this page</h3>
       <a href="#core" data-i18n="toc_core">Core Capabilities</a>
-      <a href="#io" data-i18n="toc_io">IO Control & Execution</a>
-      <a href="#sense" data-i18n="toc_sense">Dual-Channel Sensing</a>
-      <a href="#ui" data-i18n="toc_ui">Remote UI & Access</a>
-      <a href="#integr" data-i18n="toc_integr">Comms & Integration</a>
-      <a href="#deploy" data-i18n="toc_deploy">Deployment & Fail-Safe</a>
       <a href="#theory" data-i18n="toc_theory">Strategy Theory</a>
-      <a href="#drawing" data-i18n="toc_drawing">Charting Theory</a>
     </nav>
 
     <div>
-      <!-- Core Capabilities -->
+      <!-- ✅ 核心功能归纳 -->
       <section id="core" class="card">
         <h2 data-i18n="core_title">✅ EnergizeOS™ Core Capabilities</h2>
-        <div class="hero muted" data-i18n="core_intro">
-          Strategy engine, deterministic IO control, redundant sensing, secure UI & access, rich integrations, and fail-safe deployment.
-        </div>
         <div class="body">
           <h3 data-i18n="core_engine_h">1️⃣ Strategy Execution Engine</h3>
           <ul>
@@ -86,56 +72,13 @@
             <span class="chip">TOU</span><span class="chip">DCM</span><span class="chip">GT/Island</span>
             <span class="chip">DG</span><span class="chip">AI Forecast</span><span class="chip">PV Self-Use</span><span class="chip">Zero Export</span>
           </div>
-
-          <h3 data-i18n="core_io_h">2️⃣ IO Control & Execution Layer</h3>
-          <ul>
-            <li data-i18n="core_io_do">DO chain: EMS DO → interposing relay → trip/close coil</li>
-            <li data-i18n="core_io_di">DI feedback: breaker aux contacts → EMS DI (closed loop)</li>
-            <li data-i18n="core_io_interlock">Enforce close interlocks (C1–C7)</li>
-            <li data-i18n="core_io_ups">UPS control power isolation + UVT/fail-safe trip</li>
-          </ul>
-
-          <h3 data-i18n="core_sense_h">3️⃣ Dual-Channel Sensing</h3>
-          <ul>
-            <li data-i18n="core_sense_relays">Protection relay channel (e.g., SEL-700G / CM-UFD)</li>
-            <li data-i18n="core_sense_meters">Smart meter channel (e.g., SEL-735 / eGauge)</li>
-            <li data-i18n="core_sense_antiisland">Anti-islanding and interlock inputs</li>
-            <li data-i18n="core_sense_egauge">eGauge for zero-export, load monitoring & reverse power detection</li>
-          </ul>
-
-          <h3 data-i18n="core_ui_h">4️⃣ Remote UI & Access Control</h3>
-          <ul>
-            <li data-i18n="core_ui_roles">Admin/Operator roles; closing requires Admin authorization</li>
-            <li data-i18n="core_ui_noauto">No auto-reclose: UI confirmation is mandatory</li>
-            <li data-i18n="core_ui_offline">Web UI / HMI runs locally and offline</li>
-            <li data-i18n="core_ui_rt">Real-time status, strategy enable flags, criteria indicators</li>
-            <li data-i18n="core_ui_alarm">Alarms & logging</li>
-          </ul>
-
-          <h3 data-i18n="core_integr_h">5️⃣ Communication & Integration</h3>
-          <ul>
-            <li data-i18n="core_integr_proto">Modbus TCP/RTU, RS-485, CAN</li>
-            <li data-i18n="core_integr_multi">Multi-device: PCS, PLC, meters, relays</li>
-            <li data-i18n="core_integr_cloud">MQTT/HTTP webhooks to cloud/3rd-party</li>
-            <li data-i18n="core_integr_remote">Remote parameterization / strategy dispatch</li>
-          </ul>
-
-          <h3 data-i18n="core_deploy_h">6️⃣ Deployment & Fail-Safe Structure</h3>
-          <ul>
-            <li data-i18n="core_deploy_local">Local runtime (no internet required)</li>
-            <li data-i18n="core_deploy_protect">UPS + UVT multi-layer protection</li>
-            <li data-i18n="core_deploy_trip">Alarm-triggered trips; remote close inhibit</li>
-            <li data-i18n="core_deploy_license">Clear licensing: on-prem engine + module subscription (SaaS)</li>
-            <li data-i18n="core_deploy_risk">Responsibility matrix & disclaimers</li>
-          </ul>
         </div>
       </section>
 
-      <!-- Strategy Theory -->
+      <!-- 📘 策略模块理论（仅保留这部分） -->
       <section id="theory" class="card">
         <h2 data-i18n="theory_title">📘 Strategy Modules – Theory</h2>
         <div class="body">
-          <!-- TOU -->
           <h3 data-i18n="th_tou_h">1️⃣ TOU – Time-of-Use Optimization</h3>
           <p class="muted" data-i18n="th_tou_p1">Use tariff differentials (peak/valley) to schedule low-price charging and high-price discharging to minimize total bill.</p>
           <ul>
@@ -145,7 +88,6 @@
             <li data-i18n="th_tou_s4">Charge during valley if SOC ≤ threshold</li>
           </ul>
 
-          <!-- DCM -->
           <h3 data-i18n="th_dcm_h">2️⃣ DCM – Demand Charge Management</h3>
           <p class="muted" data-i18n="th_dcm_p1">Cap the 15-min (or 30-min) average demand by discharging BESS before a peak forms, reducing the billed maximum demand (kW).</p>
           <ul>
@@ -155,191 +97,52 @@
             <li data-i18n="th_dcm_s4">Coordinate with TOU to avoid conflicts</li>
           </ul>
 
-          <!-- GT/Island -->
           <h3 data-i18n="th_gtis_h">3️⃣ Grid-Tied / Islanded Transition</h3>
           <p class="muted" data-i18n="th_gtis_p1">When voltage/frequency deviates, open to islanded mode; re-close only after interlocks (C1–C7) and sync are satisfied.</p>
 
-          <!-- DG -->
           <h3 data-i18n="th_dg_h">4️⃣ DG Coordination</h3>
           <p class="muted" data-i18n="th_dg_p1">Keep DG in its optimal load band by letting BESS absorb low-load periods and assist at high load, lowering fuel & O&M.</p>
 
-          <!-- AI -->
           <h3 data-i18n="th_ai_h">5️⃣ AI-Driven Forecast & Control</h3>
           <p class="muted" data-i18n="th_ai_p1">Use ML time-series forecasts (e.g., LSTM/Prophet) with tariffs & SOC constraints to produce optimal dispatch; retrain continuously.</p>
 
-          <!-- PV -->
           <h3 data-i18n="th_pv_h">6️⃣ PV Self-Consumption Maximization</h3>
           <p class="muted" data-i18n="th_pv_p1">Prioritize PV to load; store surplus in BESS; avoid export to maximize self-use ratio.</p>
 
-          <!-- Zero Export -->
           <h3 data-i18n="th_zx_h">7️⃣ Zero Export Enforcement</h3>
           <p class="muted" data-i18n="th_zx_p1">Hold PCC ≤ 0 by fast PCS adjustments when export tendency is detected (100–200 ms response typical).</p>
-        </div>
-      </section>
-
-      <!-- Drawing Theory -->
-      <section id="drawing" class="card">
-        <h2 data-i18n="draw_title">🎨 Charting Theory (for UI)</h2>
-        <div class="body">
-          <h3 data-i18n="draw_tou_h">TOU – What to plot</h3>
-          <ul>
-            <li data-i18n="draw_tou_1">X: time; Y: kW (±) + price (2nd axis)</li>
-            <li data-i18n="draw_tou_2">Background bands for peak/valley</li>
-            <li data-i18n="draw_tou_3">SOC line; charge/discharge arrows</li>
-          </ul>
-
-          <h3 data-i18n="draw_dcm_h">DCM – What to plot</h3>
-          <ul>
-            <li data-i18n="draw_dcm_1">X: time (15/30 min window); Y: kW</li>
-            <li data-i18n="draw_dcm_2">Load vs after-BESS, with dashed threshold</li>
-            <li data-i18n="draw_dcm_3">SOC mini-panel optional</li>
-          </ul>
-
-          <h3 data-i18n="draw_gtis_h">GT/Island – What to plot</h3>
-          <ul>
-            <li data-i18n="draw_gtis_1">Two states (grid-tied / islanded) with interlock box (C1–C7)</li>
-            <li data-i18n="draw_gtis_2">Dual-channel sensing (relay + meter)</li>
-          </ul>
-
-          <h3 data-i18n="draw_dg_h2">DG – What to plot</h3>
-          <ul>
-            <li data-i18n="draw_dg_1">DG and BESS power with low/high thresholds</li>
-            <li data-i18n="draw_dg_2">Highlight optimal DG load band</li>
-          </ul>
-
-          <h3 data-i18n="draw_pv_h">PV – What to plot</h3>
-          <ul>
-            <li data-i18n="draw_pv_1">PV, Load, BESS stacked areas; PCC ≈ 0</li>
-            <li data-i18n="draw_pv_2">Self-use ratio indicator</li>
-          </ul>
-
-          <h3 data-i18n="draw_zx_h">Zero Export – What to plot</h3>
-          <ul>
-            <li data-i18n="draw_zx_1">PCC oscillating around zero with fast control loop</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- IO / Sensing / Integration / Deployment -->
-      <section id="io" class="card">
-        <h2 data-i18n="io_title">2️⃣ IO Control & Execution</h2>
-        <div class="body">
-          <ul>
-            <li data-i18n="io_1">DO chain: EMS DO → interposing relay → trip/close coil</li>
-            <li data-i18n="io_2">DI feedback: breaker aux contacts → EMS DI</li>
-            <li data-i18n="io_3">C1–C7 close interlocks enforced</li>
-            <li data-i18n="io_4">UPS feed isolation + UVT/fail-safe trip</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="sense" class="card">
-        <h2 data-i18n="sense_title">3️⃣ Dual-Channel Sensing</h2>
-        <div class="body">
-          <ul>
-            <li data-i18n="sense_1">Protection relay channel (SEL-700G / CM-UFD)</li>
-            <li data-i18n="sense_2">Smart meter channel (SEL-735 / eGauge)</li>
-            <li data-i18n="sense_3">Anti-islanding & interlock inputs</li>
-            <li data-i18n="sense_4">Reverse power detection by eGauge</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="ui" class="card">
-        <h2 data-i18n="ui_title">4️⃣ Remote UI & Access Control</h2>
-        <div class="body">
-          <ul>
-            <li data-i18n="ui_1">Admin/Operator roles; close requires Admin</li>
-            <li data-i18n="ui_2">Manual confirmation for any re-close</li>
-            <li data-i18n="ui_3">Web UI / HMI local & offline capable</li>
-            <li data-i18n="ui_4">Real-time data, enable states, criteria indicators</li>
-            <li data-i18n="ui_5">Alarms & logs</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="integr" class="card">
-        <h2 data-i18n="integr_title">5️⃣ Communication & Integration</h2>
-        <div class="body">
-          <ul>
-            <li data-i18n="integr_1">Modbus TCP/RTU, RS-485, CAN</li>
-            <li data-i18n="integr_2">Multi-device: PCS, PLC, meters, relays</li>
-            <li data-i18n="integr_3">MQTT/HTTP webhooks</li>
-            <li data-i18n="integr_4">Remote parameter & strategy updates</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="deploy" class="card">
-        <h2 data-i18n="deploy_title">6️⃣ Deployment & Fail-Safe</h2>
-        <div class="body">
-          <ul>
-            <li data-i18n="deploy_1">Local runtime (air-gapped friendly)</li>
-            <li data-i18n="deploy_2">UPS + UVT protections</li>
-            <li data-i18n="deploy_3">Alarm-triggered trip; remote close inhibit</li>
-            <li data-i18n="deploy_4">On-prem engine + modular SaaS licensing</li>
-            <li data-i18n="deploy_5">Responsibility matrix & disclaimers</li>
-          </ul>
         </div>
       </section>
     </div>
   </main>
 
-  <footer>
-    <div>© 2025 Energize Solutions Inc.</div>
-    <div class="muted">Contact: <a href="mailto:info@energizeos.com">info@energizeos.com</a></div>
+  <!-- 统一底部（与主站完全一致的文案与图标） -->
+  <footer class="sitefoot">
+    <div class="icons">
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V23h-4v-6.7c0-1.6-.03-3.66-2.23-3.66-2.24 0-2.58 1.75-2.58 3.55V23h-4V8z"/></svg>
+      </a>
+      <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.71-2.77.6-3.36-1.19-3.36-1.19-.45-1.16-1.12-1.47-1.12-1.47-.92-.63.07-.62.07-.62 1.02.07 1.55 1.05 1.55 1.05 .9 1.54 2.36 1.1 2.94.84.09-.65.35-1.1.63-1.35-2.22-.25-4.55-1.11-4.55-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.9-1.29 2.74-1.02 2.74-1.02 .55 1.38.2 2.4.1 2.65.64.7 1.02 1.6 1.02 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.86 0 1.34-.01 2.42-.01 2.75 0 .26.18.58.69.48A10 10 0 0 0 12 2z"/></svg>
+      </a>
+    </div>
+    <div>© 2025 Energize Solutions Inc. – All rights reserved. Powered by GitHub Pages | Contact: <a href="mailto:info@energizeos.com">info@energizeos.com</a></div>
   </footer>
 
   <script>
-    // --------- i18n (default EN; toggle to ZH). Keys mirror data-i18n attributes ---------
+    // i18n（只保留在用到的键，默认英文）
     const I18N = {
-      en: {
+      en:{
         subtitle:"Specs & Strategy Theory",
         backViz:"← Back to Visualization",
         language:"Language",
         toc:"On this page",
         toc_core:"Core Capabilities",
-        toc_io:"IO Control & Execution",
-        toc_sense:"Dual-Channel Sensing",
-        toc_ui:"Remote UI & Access",
-        toc_integr:"Comms & Integration",
-        toc_deploy:"Deployment & Fail-Safe",
         toc_theory:"Strategy Theory",
-        toc_drawing:"Charting Theory",
-
         core_title:"✅ EnergizeOS™ Core Capabilities",
-        core_intro:"Strategy engine, deterministic IO control, redundant sensing, secure UI & access, rich integrations, and fail-safe deployment.",
         core_engine_h:"1️⃣ Strategy Execution Engine",
         core_engine_1:"Central brain for multi-strategy orchestration",
         core_engine_2:"Modular enable/disable; remote OTA updates",
-        core_io_h:"2️⃣ IO Control & Execution Layer",
-        core_io_do:"DO chain: EMS DO → interposing relay → trip/close coil",
-        core_io_di:"DI feedback: breaker aux contacts → EMS DI (closed loop)",
-        core_io_interlock:"Enforce close interlocks (C1–C7)",
-        core_io_ups:"UPS control power isolation + UVT/fail-safe trip",
-        core_sense_h:"3️⃣ Dual-Channel Sensing",
-        core_sense_relays:"Protection relay channel (e.g., SEL-700G / CM-UFD)",
-        core_sense_meters:"Smart meter channel (e.g., SEL-735 / eGauge)",
-        core_sense_antiisland:"Anti-islanding and interlock inputs",
-        core_sense_egauge:"eGauge for zero-export, load monitoring & reverse power detection",
-        core_ui_h:"4️⃣ Remote UI & Access Control",
-        core_ui_roles:"Admin/Operator roles; closing requires Admin authorization",
-        core_ui_noauto:"No auto-reclose: UI confirmation is mandatory",
-        core_ui_offline:"Web UI / HMI runs locally and offline",
-        core_ui_rt:"Real-time status, strategy enable flags, criteria indicators",
-        core_ui_alarm:"Alarms & logging",
-        core_integr_h:"5️⃣ Communication & Integration",
-        core_integr_proto:"Modbus TCP/RTU, RS-485, CAN",
-        core_integr_multi:"Multi-device: PCS, PLC, meters, relays",
-        core_integr_cloud:"MQTT/HTTP webhooks to cloud/3rd-party",
-        core_integr_remote:"Remote parameterization / strategy dispatch",
-        core_deploy_h:"6️⃣ Deployment & Fail-Safe Structure",
-        core_deploy_local:"Local runtime (no internet required)",
-        core_deploy_protect:"UPS + UVT multi-layer protection",
-        core_deploy_trip:"Alarm-triggered trips; remote close inhibit",
-        core_deploy_license:"Clear licensing: on-prem engine + module subscription (SaaS)",
-        core_deploy_risk:"Responsibility matrix & disclaimers",
-
         theory_title:"📘 Strategy Modules – Theory",
         th_tou_h:"1️⃣ TOU – Time-of-Use Optimization",
         th_tou_p1:"Use tariff differentials (peak/valley) to schedule low-price charging and high-price discharging to minimize total bill.",
@@ -347,164 +150,70 @@
         th_tou_s2:"Monitor SOC, price, and load in real time",
         th_tou_s3:"Discharge during peak if SOC ≥ threshold",
         th_tou_s4:"Charge during valley if SOC ≤ threshold",
-
         th_dcm_h:"2️⃣ DCM – Demand Charge Management",
         th_dcm_p1:"Cap the 15-min (or 30-min) average demand by discharging BESS before a peak forms, reducing the billed maximum demand (kW).",
         th_dcm_s1:"Continuously compute 15-min/30-min rolling averages",
         th_dcm_s2:"Trigger discharge when forecast/avg exceeds threshold",
         th_dcm_s3:"Adjust power/duration to avoid premature SOC depletion",
         th_dcm_s4:"Coordinate with TOU to avoid conflicts",
-
         th_gtis_h:"3️⃣ Grid-Tied / Islanded Transition",
         th_gtis_p1:"When voltage/frequency deviates, open to islanded mode; re-close only after interlocks (C1–C7) and sync are satisfied.",
-
         th_dg_h:"4️⃣ DG Coordination",
         th_dg_p1:"Keep DG in its optimal load band by letting BESS absorb low-load periods and assist at high load, lowering fuel & O&M.",
-
         th_ai_h:"5️⃣ AI-Driven Forecast & Control",
-        th_ai_p1:"Use ML time-series forecasts (e.g., LSTM/Prophet) with tariffs & SOC constraints to produce optimal dispatch; retrain continuously.",
-
+        th_ai_p1:"Use ML time-series forecasts with tariffs & SOC constraints to produce optimal dispatch; retrain continuously.",
         th_pv_h:"6️⃣ PV Self-Consumption Maximization",
         th_pv_p1:"Prioritize PV to load; store surplus in BESS; avoid export to maximize self-use ratio.",
-
         th_zx_h:"7️⃣ Zero Export Enforcement",
-        th_zx_p1:"Hold PCC ≤ 0 by fast PCS adjustments when export tendency is detected (100–200 ms response typical).",
-
-        draw_title:"🎨 Charting Theory (for UI)",
-        draw_tou_h:"TOU – What to plot",
-        draw_tou_1:"X: time; Y: kW (±) + price (2nd axis)",
-        draw_tou_2:"Background bands for peak/valley",
-        draw_tou_3:"SOC line; charge/discharge arrows",
-        draw_dcm_h:"DCM – What to plot",
-        draw_dcm_1:"X: time (15/30 min window); Y: kW",
-        draw_dcm_2:"Load vs after-BESS, with dashed threshold",
-        draw_dcm_3:"SOC mini-panel optional",
-        draw_gtis_h:"GT/Island – What to plot",
-        draw_gtis_1:"Two states (grid-tied / islanded) with interlock box (C1–C7)",
-        draw_gtis_2:"Dual-channel sensing (relay + meter)",
-        draw_dg_h2:"DG – What to plot",
-        draw_dg_1:"DG and BESS power with low/high thresholds",
-        draw_dg_2:"Highlight optimal DG load band",
-        draw_pv_h:"PV – What to plot",
-        draw_pv_1:"PV, Load, BESS stacked areas; PCC ≈ 0",
-        draw_pv_2:"Self-use ratio indicator",
-        draw_zx_h:"Zero Export – What to plot",
-        draw_zx_1:"PCC oscillating around zero with fast control loop"
+        th_zx_p1:"Hold PCC ≤ 0 by fast PCS adjustments when export tendency is detected."
       },
-      zh: {
+      zh:{
         subtitle:"规格与策略理论",
         backViz:"← 返回可视化",
         language:"语言",
         toc:"本页导航",
         toc_core:"核心功能归纳",
-        toc_io:"IO 控制与执行",
-        toc_sense:"双通道感知",
-        toc_ui:"远程 UI 与授权",
-        toc_integr:"通信与集成",
-        toc_deploy:"部署与失效安全",
         toc_theory:"策略模块理论",
-        toc_drawing:"绘图理论",
-
         core_title:"✅ EnergizeOS™ 核心功能归纳",
-        core_intro:"策略引擎、确定性 IO 控制、冗余感知、安全 UI 与访问、丰富集成，以及失效安全的部署能力。",
         core_engine_h:"1️⃣ 策略控制引擎",
         core_engine_1:"多策略编排的大脑",
         core_engine_2:"模块化启用/关闭；远程 OTA 更新",
-        core_io_h:"2️⃣ 智能控制与 IO 执行",
-        core_io_do:"DO 控制链：EMS DO → 中间继电器 → 跳/合闸线圈",
-        core_io_di:"DI 反馈：断路器辅助触点 → EMS DI（闭环）",
-        core_io_interlock:"强制执行合闸互锁判据（C1–C7）",
-        core_io_ups:"UPS 控制电源隔离 + UVT/失效跳闸",
-        core_sense_h:"3️⃣ 双通道状态感知",
-        core_sense_relays:"保护继电器通道（如 SEL-700G / CM-UFD）",
-        core_sense_meters:"智能电表通道（如 SEL-735 / eGauge）",
-        core_sense_antiisland:"防孤岛与合闸互锁输入",
-        core_sense_egauge:"eGauge 实现零逆流/负载监控/反送判断",
-        core_ui_h:"4️⃣ 远程交互与授权机制",
-        core_ui_roles:"Admin/Operator 角色区分，合闸需 Admin 授权",
-        core_ui_noauto:"禁止自动合闸，UI 必须人工确认",
-        core_ui_offline:"网页 UI / HMI 本地可运行（离线）",
-        core_ui_rt:"实时数据、策略启用、判据状态提示",
-        core_ui_alarm:"报警触发与日志记录",
-        core_integr_h:"5️⃣ 通信与系统集成",
-        core_integr_proto:"Modbus TCP/RTU、RS-485、CAN",
-        core_integr_multi:"多设备：PCS、PLC、电表、继电器等",
-        core_integr_cloud:"MQTT/HTTP Webhook 对接云/第三方",
-        core_integr_remote:"控制策略远程下发与参数修改",
-        core_deploy_h:"6️⃣ 部署与安全机制",
-        core_deploy_local:"本地运行（无网络亦可）",
-        core_deploy_protect:"UPS + UVT 多重保护",
-        core_deploy_trip:"报警触发跳闸、远程禁止合闸",
-        core_deploy_license:"本地引擎 + 模块订阅（SaaS）授权",
-        core_deploy_risk:"责任矩阵与免责条款",
-
         theory_title:"📘 策略模块理论介绍",
         th_tou_h:"1️⃣ TOU 电价优化策略",
-        th_tou_p1:"利用峰/谷价差低电价充电、高电价放电，降低电费。",
+        th_tou_p1:"利用峰/谷价差在低电价充电、高电价放电，降低电费。",
         th_tou_s1:"预设充/放电时间窗与功率限制",
-        th_tou_s2:"实时监测 SOC、电价、负载",
-        th_tou_s3:"进入高价且 SOC 充足时放电",
-        th_tou_s4:"进入低价且 SOC 偏低时充电",
-
+        th_tou_s2:"实时监测 SOC、电价与负载",
+        th_tou_s3:"高价段且 SOC 充足时放电",
+        th_tou_s4:"低价段且 SOC 偏低时充电",
         th_dcm_h:"2️⃣ 需量控制策略（DCM）",
         th_dcm_p1:"在需量峰值形成前放电削峰，压低计费需量（kW）。",
         th_dcm_s1:"持续计算 15/30 分钟滚动均值",
         th_dcm_s2:"预测/均值越阈值触发放电",
         th_dcm_s3:"动态调整出力与时长，避免 SOC 过早耗尽",
         th_dcm_s4:"与 TOU 协同避免冲突",
-
         th_gtis_h:"3️⃣ 并离网切换策略",
         th_gtis_p1:"电压/频率异常转离网；满足互锁与同步后方可并网。",
-
         th_dg_h:"4️⃣ 柴油机协调控制",
         th_dg_p1:"维持柴油机在最佳负载区间，低负载由 BESS 接管，高负载 BESS 辅助，降低油耗与维护。",
-
         th_ai_h:"5️⃣ AI 负载预测与策略优化",
-        th_ai_p1:"使用 LSTM/Prophet 等时间序列模型结合电价与 SOC 约束生成最优调度，并持续再训练。",
-
+        th_ai_p1:"结合电价与 SOC 约束进行最优调度，并持续再训练。",
         th_pv_h:"6️⃣ 光伏最大自用",
         th_pv_p1:"PV 优先供负载，多余充 BESS，避免上网，提升自用率。",
-
         th_zx_h:"7️⃣ 零逆流控制",
-        th_zx_p1:"在检测到外送趋势时快速调节 PCS，使 PCC ≤ 0（典型 100–200 ms）。",
-
-        draw_title:"🎨 绘图理论（用于 UI）",
-        draw_tou_h:"TOU – 绘制要点",
-        draw_tou_1:"X 时间；Y kW（正放电/负充电）+ 电价第二纵轴",
-        draw_tou_2:"用背景区块区分峰/谷",
-        draw_tou_3:"SOC 折线；充/放箭头",
-        draw_dcm_h:"DCM – 绘制要点",
-        draw_dcm_1:"X 时间（15/30 窗口）；Y kW",
-        draw_dcm_2:"负载 vs 削峰后曲线，虚线阈值",
-        draw_dcm_3:"可选 SOC 小面板",
-        draw_gtis_h:"并/离网 – 绘制要点",
-        draw_gtis_1:"两态图（并网/离网）+ 互锁框（C1–C7）",
-        draw_gtis_2:"双通道感知（继电器+电表）",
-        draw_dg_h2:"柴油机 – 绘制要点",
-        draw_dg_1:"DG 与 BESS 功率 + 高/低阈值",
-        draw_dg_2:"高亮 DG 最佳负载区间",
-        draw_pv_h:"PV – 绘制要点",
-        draw_pv_1:"PV/Load/BESS 叠加面积图；PCC ≈ 0",
-        draw_pv_2:"显示自用率指标",
-        draw_zx_h:"零逆流 – 绘制要点",
-        draw_zx_1:"PCC 围绕零线波动，闭环快速"
+        th_zx_p1:"检测到外送趋势时快速调节 PCS，使 PCC ≤ 0。"
       }
     };
-
-    const sel = document.getElementById('langSel');
-    sel.addEventListener('change', ()=> applyLang(sel.value));
+    const sel=document.getElementById('langSel');
+    sel.addEventListener('change',()=>applyLang(sel.value));
     function applyLang(lang='en'){
-      const dict = I18N[lang] || I18N.en;
-      document.documentElement.lang = lang;
+      const dict=I18N[lang]||I18N.en;
+      document.documentElement.lang=lang;
       document.querySelectorAll('[data-i18n]').forEach(el=>{
-        const key = el.getAttribute('data-i18n');
-        if(dict[key]) el.textContent = dict[key];
+        const k=el.getAttribute('data-i18n'); if(dict[k]) el.textContent=dict[k];
       });
-      localStorage.setItem('specs_lang', lang);
+      localStorage.setItem('specs_lang',lang);
     }
-    // default EN; restore user pref if exists
-    applyLang(localStorage.getItem('specs_lang') || 'en');
+    applyLang(localStorage.getItem('specs_lang')||'en');
   </script>
 </body>
 </html>
-
