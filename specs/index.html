@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>EnergizeOS™ – Specs & Strategy Theory</title>
+  <title>EnergizeOS™ – Specs</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root{ --bg:#0f1115; --panel:#151922; --ink:#e6e8ee; --muted:#aab1c6; --line:#232a3a; --chip:#1a2130; }
@@ -27,7 +27,6 @@
     ul{margin:8px 0 12px 18px;color:#d4dcf5}
     .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
     .chip{background:var(--chip);border:1px solid #2d3952;color:#c7d4f1;padding:4px 8px;border-radius:999px;font-size:12px}
-    /* 统一页脚样式（与主站一致） */
     .sitefoot{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:16px 20px;border-top:1px solid var(--line);color:#b8c1d9;font-size:14px;flex-wrap:wrap}
     .icons a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid #2b3b58;border-radius:10px;color:#c9d3ea}
     .icons a:hover{background:#1a2130}
@@ -37,11 +36,11 @@
 <body>
   <header>
     <div class="brand">EnergizeOS™</div>
-    <div id="subtitle" style="color:#aab1c6" data-i18n="subtitle">Specs & Strategy Theory</div>
+    <div style="color:#aab1c6" id="subtitle">Specs</div>
     <div class="nav">
-      <a class="btn" href="/" data-i18n="backViz">← Back to Visualization</a>
+      <a class="btn" href="/">← Back to Visualization</a>
       <div class="lang">
-        <label for="langSel" style="color:#9fb0d0" data-i18n="language">Language</label>
+        <label for="langSel" style="color:#9fb0d0">Language</label>
         <select id="langSel">
           <option value="en" selected>English</option>
           <option value="zh">中文</option>
@@ -51,72 +50,245 @@
   </header>
 
   <main>
-    <!-- 目录只保留两大块 -->
     <nav class="side">
-      <h3 data-i18n="toc">On this page</h3>
-      <a href="#core" data-i18n="toc_core">Core Capabilities</a>
-      <a href="#theory" data-i18n="toc_theory">Strategy Theory</a>
+      <h3>On this page</h3>
+      <a href="#core">Core Capabilities</a>
+      <a href="#theory">Strategy Theory</a>
     </nav>
 
     <div>
       <!-- ✅ 核心功能归纳 -->
       <section id="core" class="card">
-        <h2 data-i18n="core_title">✅ EnergizeOS™ Core Capabilities</h2>
+        <h2>✅ EnergizeOS™ Core Capabilities</h2>
         <div class="body">
-          <h3 data-i18n="core_engine_h">1️⃣ Strategy Execution Engine</h3>
-          <ul>
-            <li data-i18n="core_engine_1">Central brain for multi-strategy orchestration</li>
-            <li data-i18n="core_engine_2">Modular enable/disable; remote OTA updates</li>
-          </ul>
+          <!-- 1 -->
+          <h3>1️⃣ <span class="i18n-en">Strategy Execution Engine</span><span class="i18n-zh" style="display:none">策略控制引擎（Strategy Execution Engine）</span></h3>
+          <p class="i18n-en">
+            The central brain for multi-strategy orchestration; modular enablement and remote OTA updates.
+          </p>
+          <p class="i18n-zh" style="display:none">
+            控制系统的大脑，支持多策略并行调度，具备模块化启用、远程 OTA 更新能力。
+          </p>
           <div class="chips">
             <span class="chip">TOU</span><span class="chip">DCM</span><span class="chip">GT/Island</span>
             <span class="chip">DG</span><span class="chip">AI Forecast</span><span class="chip">PV Self-Use</span><span class="chip">Zero Export</span>
           </div>
+          <ul>
+            <li>⚙️ TOU – Time-of-Use Optimization</li>
+            <li>⚙️ DCM – Demand Charge Management</li>
+            <li>⚙️ Grid-Tied / Islanded Transition</li>
+            <li>⚙️ DG Coordination</li>
+            <li>⚙️ AI-Driven Forecast & Control</li>
+            <li>⚙️ PV Self-Consumption Maximization</li>
+            <li>⚙️ Zero Export Enforcement</li>
+          </ul>
+
+          <!-- 2 -->
+          <h3>2️⃣ <span class="i18n-en">IO Control & Execution Layer</span><span class="i18n-zh" style="display:none">智能控制与 IO 执行（IO Control & Execution Layer）</span></h3>
+          <p class="i18n-en">
+            Execute trip/close commands via digital outputs and comms; programmable closed loops with real-time feedback.
+          </p>
+          <p class="i18n-zh" style="display:none">
+            通过数字量与通信接口执行跳合闸控制命令，闭环逻辑可编程、状态实时反馈。
+          </p>
+          <ul class="i18n-en">
+            <li>🔁 DO chain: EMS DO → interposing relay → trip/close coil</li>
+            <li>📥 DI feedback: breaker aux contacts → EMS DI (closed loop)</li>
+            <li>🔒 Close interlocks (C1–C7) enforced</li>
+            <li>🔌 UPS control power isolation + UVT/fail-safe trip</li>
+          </ul>
+          <ul class="i18n-zh" style="display:none">
+            <li>🔁 DO 控制链：EMS DO → 中间继电器 → 跳合闸线圈</li>
+            <li>📥 DI 反馈链：断路器辅助触点 → EMS DI，构成状态闭环</li>
+            <li>🔒 合闸互锁判据（C1–C7）强制执行</li>
+            <li>🔌 UPS 控制电源隔离 + UVT/失效跳闸机制</li>
+          </ul>
+
+          <!-- 3 -->
+          <h3>3️⃣ <span class="i18n-en">Dual-Channel Sensing</span><span class="i18n-zh" style="display:none">双通道状态感知（Dual-Channel Sensing）</span></h3>
+          <p class="i18n-en">Redundant grid status from two device classes: protection relays and smart meters.</p>
+          <p class="i18n-zh" style="display:none">并网状态、电压频率、电网方向等信息从两类设备感知，实现冗余判断。</p>
+          <ul class="i18n-en">
+            <li>🔍 Protection relay channel (e.g., SEL-700G / CM-UFD)</li>
+            <li>📊 Smart meter channel (e.g., SEL-735 / eGauge)</li>
+            <li>🔐 Anti-islanding inputs & re-close criteria</li>
+            <li>🔀 eGauge for Zero Export + Load monitoring + Reverse power detection</li>
+          </ul>
+          <ul class="i18n-zh" style="display:none">
+            <li>🔍 电力继电器通道（如 SEL-700G / CM-UFD）</li>
+            <li>📊 智能电表通道（如 SEL-735 / eGauge）</li>
+            <li>🔐 防孤岛保护与跳合闸判据判断输入</li>
+            <li>🔀 eGauge 实现 Zero Export + Load Monitoring + Reverse Power Detection（反送判断）</li>
+          </ul>
+
+          <!-- 4 -->
+          <h3>4️⃣ <span class="i18n-en">Remote UI & Access Control</span><span class="i18n-zh" style="display:none">远程交互与授权机制（Remote UI & Access Control）</span></h3>
+          <p class="i18n-en">User UI, role-based access, secure login; manual confirmation for any re-close.</p>
+          <p class="i18n-zh" style="display:none">支持用户 UI 交互、授权控制、多角色权限、安全登录机制。</p>
+          <ul class="i18n-en">
+            <li>👤 Admin / Operator roles; closing requires Admin</li>
+            <li>🔐 No automatic re-close; UI confirmation required</li>
+            <li>🖥️ Web UI / HMI local & offline capable</li>
+            <li>📈 Real-time data, strategy status, criteria indicators</li>
+            <li>🔔 Alarms & logging</li>
+          </ul>
+          <ul class="i18n-zh" style="display:none">
+            <li>👤 Admin/Operator 角色区分，合闸需 Admin 授权</li>
+            <li>🔐 禁止任何自动合闸，UI 必须人工确认</li>
+            <li>🖥️ 网页 UI / HMI 本地运行，支持离线控制</li>
+            <li>📈 实时数据显示、策略启用状态、判据状态提示</li>
+            <li>🔔 报警触发与日志记录系统联动</li>
+          </ul>
+
+          <!-- 5 -->
+          <h3>5️⃣ <span class="i18n-en">Communication & Integration</span><span class="i18n-zh" style="display:none">通信与系统集成能力（Communication & Integration）</span></h3>
+          <p class="i18n-en">Open integration with industrial protocols and devices; scalable architecture.</p>
+          <p class="i18n-zh" style="display:none">支持多种工业通信协议与设备集成，开放结构易于扩展。</p>
+          <ul class="i18n-en">
+            <li>🧩 Modbus TCP/RTU, RS-485, CAN</li>
+            <li>🌐 Multi-device: PCS, PLC, meters, relays</li>
+            <li>📡 MQTT / HTTP webhooks</li>
+            <li>🔁 Remote parameterization & strategy updates</li>
+          </ul>
+          <ul class="i18n-zh" style="display:none">
+            <li>🧩 Modbus TCP/RTU、RS-485、CAN</li>
+            <li>🌐 多设备同时接入：PCS、PLC、电表、继电器等</li>
+            <li>📡 MQTT/HTTP Webhook 对接云平台或第三方系统</li>
+            <li>🔁 控制策略支持远程下发与参数修改</li>
+          </ul>
+
+          <!-- 6 -->
+          <h3>6️⃣ <span class="i18n-en">Deployment & Fail-Safe Structure</span><span class="i18n-zh" style="display:none">部署与安全机制（Deployment & Fail-Safe Structure）</span></h3>
+          <p class="i18n-en">Reliable on-prem runtime with safety mechanisms and clear licensing.</p>
+          <p class="i18n-zh" style="display:none">保证系统可靠运行，满足现场、工业、电力标准要求。</p>
+          <ul class="i18n-en">
+            <li>🔋 Local runtime (no internet required)</li>
+            <li>🔌 UPS + UVT protections</li>
+            <li>🧯 Alarm-triggered trip; remote close inhibit</li>
+            <li>📦 On-prem engine + module subscription (SaaS)</li>
+            <li>🔐 Responsibility matrix & disclaimers</li>
+          </ul>
+          <ul class="i18n-zh" style="display:none">
+            <li>🔋 本地运行能力（无网络亦可运行）</li>
+            <li>🔌 UPS + UVT 多重保护机制</li>
+            <li>🧯 报警触发跳闸、远程禁止合闸机制</li>
+            <li>📦 软件授权结构清晰：本地运行引擎 + 模块订阅（SaaS）</li>
+            <li>🔐 配套责任矩阵与免责条款保障部署边界</li>
+          </ul>
         </div>
       </section>
 
-      <!-- 📘 策略模块理论（仅保留这部分） -->
+      <!-- 📘 策略模块理论 -->
       <section id="theory" class="card">
-        <h2 data-i18n="theory_title">📘 Strategy Modules – Theory</h2>
+        <h2>📘 EnergizeOS™ Strategy Modules – Theory</h2>
         <div class="body">
-          <h3 data-i18n="th_tou_h">1️⃣ TOU – Time-of-Use Optimization</h3>
-          <p class="muted" data-i18n="th_tou_p1">Use tariff differentials (peak/valley) to schedule low-price charging and high-price discharging to minimize total bill.</p>
-          <ul>
-            <li data-i18n="th_tou_s1">Preset charge/discharge windows & power limits</li>
-            <li data-i18n="th_tou_s2">Monitor SOC, price, and load in real time</li>
-            <li data-i18n="th_tou_s3">Discharge during peak if SOC ≥ threshold</li>
-            <li data-i18n="th_tou_s4">Charge during valley if SOC ≤ threshold</li>
-          </ul>
+          <!-- TOU -->
+          <h3>1️⃣ TOU – Time-of-Use Optimization</h3>
+          <p class="i18n-en"><b>Principle:</b> exploit tariff differentials (peak/valley) to plan low-price charging and high-price discharging, minimizing total bill.</p>
+          <p class="i18n-zh" style="display:none"><b>原理：</b>利用峰、平、谷价差优化储能充放电计划，低价充电、高价放电，降低总体电费。</p>
+          <div class="i18n-en">
+            <b>Scenarios:</b>
+            <ul><li>Commercial/industrial customers with expensive peak tariffs</li><li>Enough capacity to bridge peak/valley</li></ul>
+            <b>Key logic:</b>
+            <ul><li>Preset charge/discharge windows & power limits</li><li>Monitor SOC / price / load</li><li>Discharge in peak when SOC ≥ threshold</li><li>Charge in valley when SOC ≤ threshold</li></ul>
+          </div>
+          <div class="i18n-zh" style="display:none">
+            <b>应用场景：</b>
+            <ul><li>商业/工业高峰电价昂贵</li><li>储能容量足以跨越高低谷</li></ul>
+            <b>关键逻辑：</b>
+            <ul><li>预设充/放电时间窗与功率限制</li><li>实时监测 SOC、电价、负载</li><li>进入高价且 SOC 满足阈值时放电</li><li>进入低价且 SOC 低于阈值时充电</li></ul>
+          </div>
 
-          <h3 data-i18n="th_dcm_h">2️⃣ DCM – Demand Charge Management</h3>
-          <p class="muted" data-i18n="th_dcm_p1">Cap the 15-min (or 30-min) average demand by discharging BESS before a peak forms, reducing the billed maximum demand (kW).</p>
-          <ul>
-            <li data-i18n="th_dcm_s1">Continuously compute 15-min/30-min rolling averages</li>
-            <li data-i18n="th_dcm_s2">Trigger discharge when forecast/avg exceeds threshold</li>
-            <li data-i18n="th_dcm_s3">Adjust power/duration to avoid premature SOC depletion</li>
-            <li data-i18n="th_dcm_s4">Coordinate with TOU to avoid conflicts</li>
-          </ul>
+          <!-- DCM -->
+          <h3>2️⃣ Demand Charge Management (DCM)</h3>
+          <p class="i18n-en"><b>Principle:</b> discharge before a demand peak forms to cap the billed 15/30-minute average demand (kW).</p>
+          <p class="i18n-zh" style="display:none"><b>原理：</b>通过实时监测负载功率，预测将超出需量阈值时自动放电削峰，降低最大需量值。</p>
+          <div class="i18n-en">
+            <b>Scenarios:</b>
+            <ul><li>High demand-charge portion in bill</li><li>Load profile shows sharp peaks</li></ul>
+            <b>Key logic:</b>
+            <ul><li>Compute rolling 15/30-min averages</li><li>Trigger discharge on forecast/avg exceedance</li><li>Adjust power/duration to avoid early SOC depletion</li><li>Coordinate with TOU to avoid conflicts</li></ul>
+          </div>
+          <div class="i18n-zh" style="display:none">
+            <b>应用场景：</b>
+            <ul><li>需量费占比高</li><li>用电曲线存在瞬时高峰</li></ul>
+            <b>关键逻辑：</b>
+            <ul><li>持续计算 15/30 分钟需量预测</li><li>预计超标立即触发 BESS 放电</li><li>出力/时长动态调整，避免 SOC 过早耗尽</li><li>可与 TOU 联动避免冲突</li></ul>
+          </div>
 
-          <h3 data-i18n="th_gtis_h">3️⃣ Grid-Tied / Islanded Transition</h3>
-          <p class="muted" data-i18n="th_gtis_p1">When voltage/frequency deviates, open to islanded mode; re-close only after interlocks (C1–C7) and sync are satisfied.</p>
+          <!-- GT/Island -->
+          <h3>3️⃣ Grid-Tied / Islanded Transition</h3>
+          <p class="i18n-en"><b>Principle:</b> on abnormal voltage/frequency, island safely; re-close after interlocks (C1–C7) and sync.</p>
+          <p class="i18n-zh" style="display:none"><b>原理：</b>电压/频率偏离标准时安全转离网，市电恢复且满足互锁条件后并网。</p>
+          <div class="i18n-en">
+            <b>Scenarios:</b>
+            <ul><li>Microgrids / critical loads</li><li>Unstable grids</li></ul>
+            <b>Key logic:</b>
+            <ul><li>Dual-channel sensing (relay + meter)</li><li>EMS trip command to anti-islanding relay</li><li>Re-close only with C1–C7 satisfied and zero-export</li></ul>
+          </div>
+          <div class="i18n-zh" style="display:none">
+            <b>应用场景：</b>
+            <ul><li>微电网、关键负载应急供电</li><li>电网不稳定/故障频繁</li></ul>
+            <b>关键逻辑：</b>
+            <ul><li>双通道感知（继电器+电表）</li><li>EMS 下发跳闸控制</li><li>并网需满足 C1–C7 并先同步相位与零逆流</li></ul>
+          </div>
 
-          <h3 data-i18n="th_dg_h">4️⃣ DG Coordination</h3>
-          <p class="muted" data-i18n="th_dg_p1">Keep DG in its optimal load band by letting BESS absorb low-load periods and assist at high load, lowering fuel & O&M.</p>
+          <!-- DG -->
+          <h3>4️⃣ Diesel Generator Coordination</h3>
+          <p class="i18n-en"><b>Principle:</b> keep DG in optimal load band; BESS absorbs low-load and assists at high-load to cut fuel/O&M.</p>
+          <p class="i18n-zh" style="display:none"><b>原理：</b>协调柴油机与储能出力，削减低负载运行时间并在高负载时辅助，降低油耗与维护成本。</p>
+          <div class="i18n-en">
+            <b>Key logic:</b>
+            <ul><li>DG start/stop thresholds</li><li>Below low threshold: BESS takes over and stops DG</li><li>Above high threshold or low SOC: start DG</li><li>Maintain 50–80% rated load</li></ul>
+          </div>
+          <div class="i18n-zh" style="display:none">
+            <b>关键逻辑：</b>
+            <ul><li>设定柴油机启停功率阈值</li><li>低于低阈值：BESS 接管并停机</li><li>超过高阈/或 SOC 低：启机</li><li>维持 50–80% 额定功率区间</li></ul>
+          </div>
 
-          <h3 data-i18n="th_ai_h">5️⃣ AI-Driven Forecast & Control</h3>
-          <p class="muted" data-i18n="th_ai_p1">Use ML time-series forecasts (e.g., LSTM/Prophet) with tariffs & SOC constraints to produce optimal dispatch; retrain continuously.</p>
+          <!-- AI -->
+          <h3>5️⃣ AI-Driven Forecast & Control</h3>
+          <p class="i18n-en"><b>Principle:</b> use historical data, weather, and plans to forecast load/PV and pre-optimize dispatch.</p>
+          <p class="i18n-zh" style="display:none"><b>原理：</b>利用历史负载、天气、生产计划等信息预测未来曲线，提前优化调度。</p>
+          <div class="i18n-en">
+            <b>Key logic:</b>
+            <ul><li>Time-series models (e.g., LSTM/Prophet)</li><li>Combine tariffs & SOC constraints to produce optimal schedule</li><li>Rolling retrain to improve accuracy</li><li>Fewer manual interventions</li></ul>
+          </div>
+          <div class="i18n-zh" style="display:none">
+            <b>关键逻辑：</b>
+            <ul><li>时间序列模型（LSTM、Prophet 等）</li><li>结合电价与 SOC 约束生成最优调度</li><li>持续滚动更新模型</li><li>减少人工干预</li></ul>
+          </div>
 
-          <h3 data-i18n="th_pv_h">6️⃣ PV Self-Consumption Maximization</h3>
-          <p class="muted" data-i18n="th_pv_p1">Prioritize PV to load; store surplus in BESS; avoid export to maximize self-use ratio.</p>
+          <!-- PV -->
+          <h3>6️⃣ PV Self-Consumption Maximization</h3>
+          <p class="i18n-en"><b>Principle:</b> prioritize PV to load; store surplus in BESS; avoid export.</p>
+          <p class="i18n-zh" style="display:none"><b>原理：</b>优先用光伏满足负载，多余存入 BESS，避免上网或反送，提升自用率。</p>
+          <div class="i18n-en">
+            <b>Key logic:</b>
+            <ul><li>Monitor PV, load, SOC</li><li>Surplus PV → charge BESS</li><li>Load↑ and PV不足 → BESS discharge</li><li>Coordinate with Zero-Export</li></ul>
+          </div>
+          <div class="i18n-zh" style="display:none">
+            <b>关键逻辑：</b>
+            <ul><li>实时监测光伏、负载与 SOC</li><li>光伏余量优先充电</li><li>负载上升且光伏不足时由 BESS 补足</li><li>与 Zero-Export 配合确保不外送</li></ul>
+          </div>
 
-          <h3 data-i18n="th_zx_h">7️⃣ Zero Export Enforcement</h3>
-          <p class="muted" data-i18n="th_zx_p1">Hold PCC ≤ 0 by fast PCS adjustments when export tendency is detected (100–200 ms response typical).</p>
+          <!-- Zero Export -->
+          <h3>7️⃣ Zero Export Enforcement</h3>
+          <p class="i18n-en"><b>Principle:</b> hold PCC ≤ 0 via fast PCS regulation (100–200 ms typical).</p>
+          <p class="i18n-zh" style="display:none"><b>原理：</b>通过快速调节 PCS 确保并网点功率方向 ≤ 0（典型 100–200ms）。</p>
+          <div class="i18n-en">
+            <b>Key logic:</b>
+            <ul><li>Metering by eGauge / SEL-735</li><li>Detect export tendency and react quickly</li><li>Coordinate with PV self-use and TOU</li></ul>
+          </div>
+          <div class="i18n-zh" style="display:none">
+            <b>关键逻辑：</b>
+            <ul><li>eGauge/SEL-735 监测并网点功率</li><li>检测到外送趋势立即调节</li><li>与光伏自用、TOU 联动防冲突</li></ul>
+          </div>
         </div>
       </section>
     </div>
   </main>
 
-  <!-- 统一底部（与主站完全一致的文案与图标） -->
   <footer class="sitefoot">
     <div class="icons">
       <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
@@ -130,90 +302,23 @@
   </footer>
 
   <script>
-    // i18n（只保留在用到的键，默认英文）
-    const I18N = {
-      en:{
-        subtitle:"Specs & Strategy Theory",
-        backViz:"← Back to Visualization",
-        language:"Language",
-        toc:"On this page",
-        toc_core:"Core Capabilities",
-        toc_theory:"Strategy Theory",
-        core_title:"✅ EnergizeOS™ Core Capabilities",
-        core_engine_h:"1️⃣ Strategy Execution Engine",
-        core_engine_1:"Central brain for multi-strategy orchestration",
-        core_engine_2:"Modular enable/disable; remote OTA updates",
-        theory_title:"📘 Strategy Modules – Theory",
-        th_tou_h:"1️⃣ TOU – Time-of-Use Optimization",
-        th_tou_p1:"Use tariff differentials (peak/valley) to schedule low-price charging and high-price discharging to minimize total bill.",
-        th_tou_s1:"Preset charge/discharge windows & power limits",
-        th_tou_s2:"Monitor SOC, price, and load in real time",
-        th_tou_s3:"Discharge during peak if SOC ≥ threshold",
-        th_tou_s4:"Charge during valley if SOC ≤ threshold",
-        th_dcm_h:"2️⃣ DCM – Demand Charge Management",
-        th_dcm_p1:"Cap the 15-min (or 30-min) average demand by discharging BESS before a peak forms, reducing the billed maximum demand (kW).",
-        th_dcm_s1:"Continuously compute 15-min/30-min rolling averages",
-        th_dcm_s2:"Trigger discharge when forecast/avg exceeds threshold",
-        th_dcm_s3:"Adjust power/duration to avoid premature SOC depletion",
-        th_dcm_s4:"Coordinate with TOU to avoid conflicts",
-        th_gtis_h:"3️⃣ Grid-Tied / Islanded Transition",
-        th_gtis_p1:"When voltage/frequency deviates, open to islanded mode; re-close only after interlocks (C1–C7) and sync are satisfied.",
-        th_dg_h:"4️⃣ DG Coordination",
-        th_dg_p1:"Keep DG in its optimal load band by letting BESS absorb low-load periods and assist at high load, lowering fuel & O&M.",
-        th_ai_h:"5️⃣ AI-Driven Forecast & Control",
-        th_ai_p1:"Use ML time-series forecasts with tariffs & SOC constraints to produce optimal dispatch; retrain continuously.",
-        th_pv_h:"6️⃣ PV Self-Consumption Maximization",
-        th_pv_p1:"Prioritize PV to load; store surplus in BESS; avoid export to maximize self-use ratio.",
-        th_zx_h:"7️⃣ Zero Export Enforcement",
-        th_zx_p1:"Hold PCC ≤ 0 by fast PCS adjustments when export tendency is detected."
-      },
-      zh:{
-        subtitle:"规格与策略理论",
-        backViz:"← 返回可视化",
-        language:"语言",
-        toc:"本页导航",
-        toc_core:"核心功能归纳",
-        toc_theory:"策略模块理论",
-        core_title:"✅ EnergizeOS™ 核心功能归纳",
-        core_engine_h:"1️⃣ 策略控制引擎",
-        core_engine_1:"多策略编排的大脑",
-        core_engine_2:"模块化启用/关闭；远程 OTA 更新",
-        theory_title:"📘 策略模块理论介绍",
-        th_tou_h:"1️⃣ TOU 电价优化策略",
-        th_tou_p1:"利用峰/谷价差在低电价充电、高电价放电，降低电费。",
-        th_tou_s1:"预设充/放电时间窗与功率限制",
-        th_tou_s2:"实时监测 SOC、电价与负载",
-        th_tou_s3:"高价段且 SOC 充足时放电",
-        th_tou_s4:"低价段且 SOC 偏低时充电",
-        th_dcm_h:"2️⃣ 需量控制策略（DCM）",
-        th_dcm_p1:"在需量峰值形成前放电削峰，压低计费需量（kW）。",
-        th_dcm_s1:"持续计算 15/30 分钟滚动均值",
-        th_dcm_s2:"预测/均值越阈值触发放电",
-        th_dcm_s3:"动态调整出力与时长，避免 SOC 过早耗尽",
-        th_dcm_s4:"与 TOU 协同避免冲突",
-        th_gtis_h:"3️⃣ 并离网切换策略",
-        th_gtis_p1:"电压/频率异常转离网；满足互锁与同步后方可并网。",
-        th_dg_h:"4️⃣ 柴油机协调控制",
-        th_dg_p1:"维持柴油机在最佳负载区间，低负载由 BESS 接管，高负载 BESS 辅助，降低油耗与维护。",
-        th_ai_h:"5️⃣ AI 负载预测与策略优化",
-        th_ai_p1:"结合电价与 SOC 约束进行最优调度，并持续再训练。",
-        th_pv_h:"6️⃣ 光伏最大自用",
-        th_pv_p1:"PV 优先供负载，多余充 BESS，避免上网，提升自用率。",
-        th_zx_h:"7️⃣ 零逆流控制",
-        th_zx_p1:"检测到外送趋势时快速调节 PCS，使 PCC ≤ 0。"
-      }
-    };
-    const sel=document.getElementById('langSel');
-    sel.addEventListener('change',()=>applyLang(sel.value));
+    // 简单语言切换：默认英文，切到中文时只显示 .i18n-zh
+    const sel = document.getElementById('langSel');
     function applyLang(lang='en'){
-      const dict=I18N[lang]||I18N.en;
-      document.documentElement.lang=lang;
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
-        const k=el.getAttribute('data-i18n'); if(dict[k]) el.textContent=dict[k];
-      });
-      localStorage.setItem('specs_lang',lang);
+      document.documentElement.lang = lang;
+      document.querySelectorAll('.i18n-en').forEach(el=> el.style.display = (lang==='en'?'':'none'));
+      document.querySelectorAll('.i18n-zh').forEach(el=> el.style.display = (lang==='zh'?'':'none'));
+      localStorage.setItem('specs_lang', lang);
+      // 同步按钮文字
+      document.querySelector('header a.btn').textContent = (lang==='en'?'← Back to Visualization':'← 返回可视化');
+      document.getElementById('subtitle').textContent = (lang==='en'?'Specs':'规格');
+      document.querySelector('.side h3').textContent = (lang==='en'?'On this page':'本页导航');
+      const sideLinks = document.querySelectorAll('.side a');
+      if(lang==='en'){ sideLinks[0].textContent='Core Capabilities'; sideLinks[1].textContent='Strategy Theory'; }
+      else { sideLinks[0].textContent='核心功能归纳'; sideLinks[1].textContent='策略模块理论介绍'; }
     }
-    applyLang(localStorage.getItem('specs_lang')||'en');
+    sel.addEventListener('change', ()=> applyLang(sel.value));
+    applyLang(localStorage.getItem('specs_lang') || 'en');
   </script>
 </body>
 </html>
